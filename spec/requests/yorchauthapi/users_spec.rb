@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   let(:user_first) { create(:yorchauthapi_user, :with_email, :with_password, :with_password_confirmation) }
   let(:user_second) { build(:yorchauthapi_user, :with_email, :with_password, :with_password_confirmation) }
-  let(:valid_params) { { email: 'user@example.com', password: '1234user', password_confirmation: '1234user' } }
+  let(:valid_params) { { email: 'user@email.com', password: '1234user', password_confirmation: '1234user' } }
   let(:invalid_params) { { email: 'user.com', password: '1234', password_confirmation: '3456' } }
 
   describe "GET /yorchauthapi/api/users" do
@@ -52,7 +52,7 @@ RSpec.describe "Users", type: :request do
 
       data = JSON.parse response.body
       expect(response).to have_http_status(:ok)
-      expect(data['email']).to eql('user@example.com')
+      expect(data['email']).to eql('user@email.com')
     end
 
     it 'should return unprocessable_entity if params are not correct' do
