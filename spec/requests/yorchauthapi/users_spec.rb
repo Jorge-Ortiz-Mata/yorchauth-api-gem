@@ -21,8 +21,18 @@ RSpec.describe "Users", type: :request do
     end
   end
 
+  describe "GET /yorchauthapi/api/user" do
+    it 'should return success if the ID is correct' do
+      get yorchauthapi.api_user_path(user_first.id)
+
+      data = JSON.parse response.body
+      expect(response).to have_http_status(:ok)
+      expect(data['email']).to eql('user@email.com')
+    end
+  end
+
   describe "POST /yorchauthapi/api/users" do
-    it 'should return success if params are correct' do
+    it 'should return success and create the user with correct params' do
       post yorchauthapi.api_users_path(user: valid_params)
 
       data = JSON.parse response.body
@@ -34,6 +44,35 @@ RSpec.describe "Users", type: :request do
       post yorchauthapi.api_users_path(user: invalid_params)
 
       expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  describe "PATCH /yorchauthapi/api/user" do
+    it 'should return success and update the user with correct params' do
+      expect(user_first.email).to eql('user@email.com')
+      patch yorchauthapi.api_user_path(user_first.id), params: { user: valid_params }
+
+      data = JSON.parse response.body
+      expect(response).to have_http_status(:ok)
+      expect(data['email']).to eql('user@example.com')
+    end
+
+    it 'should return unprocessable_entity if params are not correct' do
+      expect(user_first.email).to eql('user@email.com')
+      patch yorchauthapi.api_user_path(user_first.id), params: { user: invalid_params }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  describe "DELETE /yorchauthapi/api/user" do
+    it 'should return success and delete a user' do
+      delete yorchauthapi.api_user_path(user_first)
+      get yorchauthapi.api_users_path
+
+      data = JSON.parse response.body
+      expect(response).to have_http_status(:ok)
+      expect(data.count).to eql(0)
     end
   end
 end
