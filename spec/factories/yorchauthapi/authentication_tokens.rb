@@ -1,6 +1,7 @@
 FactoryBot.define do
-  factory :authentication_token do
-    auth_token { "MyString" }
-    user_id { 1 }
+  factory :yorchauthapi_authentication_token, class: 'Yorchauthapi::AuthenticationToken' do
+    trait :with_user_id do
+      user_id { create(:yorchauthapi_user, :with_email, :with_password, :with_password_confirmation) }
+    end
   end
 end
