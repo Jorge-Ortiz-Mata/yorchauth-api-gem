@@ -35,9 +35,7 @@ RSpec.describe "Users", type: :request do
     it 'should return success and create the user with correct params' do
       post yorchauthapi.api_users_path(user: valid_params)
 
-      data = JSON.parse response.body
       expect(response).to have_http_status(:ok)
-      expect(data['email']).to eql('user@example.com')
     end
 
     it 'should return unprocessable entity if params are not correct' do

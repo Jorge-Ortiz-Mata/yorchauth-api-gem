@@ -22,9 +22,10 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
-  spec.add_dependency "rails", ">= 7.0.4.3"
-  spec.add_development_dependency "bcrypt"
-  spec.add_development_dependency "factory_bot_rails"
-  spec.add_development_dependency "rspec-rails"
-  spec.add_development_dependency "shoulda-matchers", "~> 5.0"
+  spec.add_development_dependency 'bcrypt'
+  spec.add_development_dependency 'factory_bot_rails'
+  spec.add_development_dependency 'jwt'
+  spec.add_dependency 'rails', '>= 7.0.4.3'
+  spec.add_development_dependency 'rspec-rails'
+  spec.add_development_dependency 'shoulda-matchers', '~> 5.0'
 end

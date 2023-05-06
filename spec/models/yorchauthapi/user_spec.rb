@@ -26,6 +26,14 @@ module Yorchauthapi
       end
     end
 
+    describe 'associations' do
+      it { should have_one(:authentication_token) }
+    end
+
+    describe 'has secure password bycrpt' do
+      it { should have_secure_password }
+    end
+
     describe 'instances' do
       it 'should do be valid' do
         expect(valid_user).to be_valid

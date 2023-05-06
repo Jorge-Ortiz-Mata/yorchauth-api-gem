@@ -88,6 +88,7 @@ GEM
       activesupport (>= 5.0)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
+    jwt (2.7.0)
     loofah (2.20.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -185,6 +186,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   factory_bot_rails
+  jwt
   rspec-rails
   shoulda-matchers (~> 5.0)
   sprockets-rails
