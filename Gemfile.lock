@@ -191,6 +191,7 @@ DEPENDENCIES
   shoulda-matchers (~> 5.0)
   sprockets-rails
   sqlite3
+  thor
   yorchauthapi!
 
 BUNDLED WITH

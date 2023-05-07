@@ -1,0 +1,9 @@
+Description:
+  This is the yorchauthapi gem. In the section below you will find some extra documentation of how to use this gem.
+
+Example:
+  rails g yorchauthapi --help
+    - This command shows this information.
+
+  rails g yorchauthapi user
+   - This command creates all the files (models and migrations).
