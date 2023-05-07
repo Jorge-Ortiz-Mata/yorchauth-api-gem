@@ -1,7 +1,11 @@
 FactoryBot.define do
   factory :yorchauthapi_user, class: 'Yorchauthapi::User' do
-    trait :with_email do
-      email { "user@email.com" }
+    trait :as_old_user do
+      email { "user-old-email@email.com" }
+    end
+
+    trait :as_new_user do
+      email { "user-new-email@email.com" }
     end
 
     trait :with_password do

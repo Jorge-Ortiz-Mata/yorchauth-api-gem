@@ -6,11 +6,11 @@ module Yorchauthapi
     validates :email, presence: true
     validates :email, uniqueness: true
 
-    validates :password, presence: true
-    validates :password, length: { minimum: 6 }
+    validates :password, presence: true, on: :create
+    validates :password, length: { minimum: 6 }, on: :create
 
-    validates :password_confirmation, presence: true
-    validates :password_confirmation, length: { minimum: 6 }
+    validates :password_confirmation, presence: true, on: :create
+    validates :password_confirmation, length: { minimum: 6 }, on: :create
 
     validate :email_format
 

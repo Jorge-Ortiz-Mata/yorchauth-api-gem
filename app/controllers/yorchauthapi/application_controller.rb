@@ -10,16 +10,11 @@ module Yorchauthapi
     end
 
     def decode_jwt(token)
-      hmac_secret = 'yorchAuthAPIKey190896'
+      return unless token.present?
 
-      begin
-        decoded_token = JWT.decode token, hmac_secret, true, { algorithm: 'HS256' }
-        decoded_token.first
-      rescue JWT::VerificationError
-        render json: { errors: ['JWT Validation incorrect'] }, status: :unprocessable_entity
-      rescue JWT::DecodeError
-        render json: { errors: ['No JWT provided'] }, status: :unauthorized
-      end
+      hmac_secret = 'yorchAuthAPIKey190896'
+      decoded_token = JWT.decode token, hmac_secret, true, { algorithm: 'HS256' }
+      decoded_token.first
     end
   end
 end

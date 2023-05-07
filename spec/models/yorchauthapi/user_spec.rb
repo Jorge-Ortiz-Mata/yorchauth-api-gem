@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Yorchauthapi
   RSpec.describe User, type: :model do
-    let(:valid_user) { build(:yorchauthapi_user, :with_email, :with_password, :with_password_confirmation) }
+    let(:valid_user) { build(:yorchauthapi_user, :as_new_user, :with_password, :with_password_confirmation) }
     let(:invalid_user) { build(:yorchauthapi_user) }
 
     describe 'validations' do

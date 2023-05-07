@@ -3,8 +3,6 @@ require 'jwt'
 module Yorchauthapi
   module Api
     class SessionsController < ApplicationController
-      protect_from_forgery with: :null_session
-
       def login
         user = User.find_by(email: params[:email])
 
