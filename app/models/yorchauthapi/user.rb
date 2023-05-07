@@ -1,7 +1,7 @@
 module Yorchauthapi
   class User < ApplicationRecord
     has_secure_password
-    has_one :authentication_token
+    has_one :authentication_token, dependent: :destroy
 
     validates :email, presence: true
     validates :email, uniqueness: true

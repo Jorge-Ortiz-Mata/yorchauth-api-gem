@@ -3,11 +3,12 @@ require 'jwt'
 module Yorchauthapi
   module Api
     class SessionsController < ApplicationController
+      protect_from_forgery with: :null_session
       before_action :set_user_by_email
 
       def login
         if @user&.authenticate(params[:password])
-          previous_token = AuthenticationToken.find_by(user_id: @user_id)
+          previous_token = AuthenticationToken.find_by(user_id: @user.id)
           previous_token.destroy if previous_token.present?
 
           render_jwt_token(@user)
@@ -34,7 +35,7 @@ module Yorchauthapi
         payload = { user: user.email, auth_token: user.authentication_token.auth_token }
         token = JWT.encode payload, hmac_secret, 'HS256'
 
-        render json: token, status: :ok
+        render json: { auth_token: token }, status: :ok
       end
     end
   end

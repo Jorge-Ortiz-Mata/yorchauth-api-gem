@@ -3,7 +3,7 @@ require 'jwt'
 module Yorchauthapi
   module Api
     class AuthenticatedController < ApplicationController
-      # protect_from_forgery with: :null_session
+      protect_from_forgery with: :null_session
 
       private
 
