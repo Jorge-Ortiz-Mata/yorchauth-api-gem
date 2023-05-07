@@ -4,38 +4,32 @@ module Yorchauthapi
   module Api
     class SessionsController < ApplicationController
       protect_from_forgery with: :null_session
-      before_action :set_user_by_email
 
       def login
-        if @user&.authenticate(params[:password])
-          previous_token = AuthenticationToken.find_by(user_id: @user.id)
-          previous_token.destroy if previous_token.present?
+        user = User.find_by(email: params[:email])
 
-          render_jwt_token(@user)
+        if user&.authenticate(params[:password])
+          authentication_token = AuthenticationToken.find_by(user_id: user.id)
+          authentication_token.destroy if authentication_token.present?
+
+          token_encoded = encode_jwt(user)
+          render json: { auth_token: token_encoded }, status: :ok
         else
-          render json: { response: false }, status: :unprocessable_entity
+          render json: { errors: ['Email or password are incorrect'] }, status: :unprocessable_entity
         end
       end
 
       def logout
-        token = AuthenticationToken.find_by(user_id: @user.id)
-        token.destroy
-      end
+        jwt_token = request.headers['HTTP_AUTHORIZATION']
+        decoded_token = decode_jwt(jwt_token)
+        authentication_token = AuthenticationToken.find_by(auth_token: decoded_token['auth_token'])
 
-      private
-
-      def set_user_by_email
-        @user = User.find_by(email: params[:email])
-      end
-
-      def render_jwt_token(user)
-        AuthenticationToken.create(user_id: user.id)
-
-        hmac_secret = 'YORCH_AUTH_API_SECRET_2048'
-        payload = { user: user.email, auth_token: user.authentication_token.auth_token }
-        token = JWT.encode payload, hmac_secret, 'HS256'
-
-        render json: { auth_token: token }, status: :ok
+        if authentication_token.present?
+          authentication_token.destroy
+          render json: { response: 'Authentication token was successfully deleted' }, status: :ok
+        else
+          render json: { errors: ['Authentication token was not found'] }, status: :unprocessable_entity
+        end
       end
     end
   end

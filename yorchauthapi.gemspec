@@ -24,7 +24,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bcrypt'
   spec.add_development_dependency 'debug'
+  spec.add_development_dependency 'dotenv-rails'
   spec.add_development_dependency 'factory_bot_rails'
+  spec.add_development_dependency 'hirb'
   spec.add_development_dependency 'jwt'
   spec.add_development_dependency 'puma'
   spec.add_dependency 'rails', '>= 7.0.4.3'

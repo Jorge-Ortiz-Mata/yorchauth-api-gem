@@ -14,7 +14,8 @@ module Yorchauthapi
         @user = User.new user_params
 
         if @user.save
-          render_jwt_token(@user)
+          token_encoded = encode_jwt(@user)
+          render json: { auth_token: token_encoded }, status: :ok
         else
           render json: { errors: @user.errors }, status: :unprocessable_entity
         end
@@ -29,7 +30,12 @@ module Yorchauthapi
       end
 
       def destroy
-        @user.destroy
+        if @user.present?
+          @user.destroy
+          render json: { response: ['Email has been deleted succesfully'] }, status: :ok
+        else
+          render json: { errors: ['Email account has not been found'] }, status: :unprocessable_entity
+        end
       end
 
       private
@@ -40,16 +46,6 @@ module Yorchauthapi
 
       def set_user
         @user = User.find(params[:id])
-      end
-
-      def render_jwt_token(user)
-        AuthenticationToken.create(user_id: user.id)
-
-        hmac_secret = 'YORCH_AUTH_API_SECRET_2048'
-        payload = { user: user.email, auth_token: user.authentication_token.auth_token }
-        token = JWT.encode payload, hmac_secret, 'HS256'
-
-        render json: { auth_token: token }, status: :ok
       end
     end
   end
