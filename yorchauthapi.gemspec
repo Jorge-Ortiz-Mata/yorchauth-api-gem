@@ -23,8 +23,10 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_development_dependency 'bcrypt'
+  spec.add_development_dependency 'debug'
   spec.add_development_dependency 'factory_bot_rails'
   spec.add_development_dependency 'jwt'
+  spec.add_development_dependency 'puma'
   spec.add_dependency 'rails', '>= 7.0.4.3'
   spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'shoulda-matchers', '~> 5.0'

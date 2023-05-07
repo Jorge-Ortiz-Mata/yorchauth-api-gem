@@ -2,16 +2,12 @@ require 'jwt'
 
 module Yorchauthapi
   module Api
-    class UsersController < ApplicationController
-      before_action :set_user, only: %i[show update destroy]
-
-      def index
-        @users = User.all
-        render json: @users, status: :ok
-      end
+    class UsersController < AuthenticatedController
+      before_action :validate_same_user, only: %i[show update destroy]
+      before_action :set_user, except: %i[create]
 
       def show
-        render json: @user, status: :ok
+        render json: { email: @user.email }, status: :ok
       end
 
       def create
@@ -20,7 +16,7 @@ module Yorchauthapi
         if @user.save
           render_jwt_token(@user)
         else
-          render json: @user, status: :unprocessable_entity
+          render json: { errors: @user.errors }, status: :unprocessable_entity
         end
       end
 
@@ -28,7 +24,7 @@ module Yorchauthapi
         if @user.update user_params
           render json: @user, status: :ok
         else
-          render json: @user, status: :unprocessable_entity
+          render json: { errors: @user.errors }, status: :unprocessable_entity
         end
       end
 
@@ -53,7 +49,7 @@ module Yorchauthapi
         payload = { user: user.email, auth_token: user.authentication_token.auth_token }
         token = JWT.encode payload, hmac_secret, 'HS256'
 
-        render json: token, status: :ok
+        render json: { auth_token: token }, status: :ok
       end
     end
   end

@@ -6,21 +6,6 @@ RSpec.describe "Users", type: :request do
   let(:valid_params) { { email: 'user@email.com', password: '1234user', password_confirmation: '1234user' } }
   let(:invalid_params) { { email: 'user.com', password: '1234', password_confirmation: '3456' } }
 
-  describe "GET /yorchauthapi/api/users" do
-    before { user_first.reload }
-
-    it 'should get users' do
-      user_second.update(email: 'second_user@email.com')
-      user_second.save
-
-      get yorchauthapi.api_users_path
-
-      data = JSON.parse response.body
-      expect(response).to have_http_status(:ok)
-      expect(data.count).to eql(2)
-    end
-  end
-
   describe "GET /yorchauthapi/api/user" do
     it 'should return success if the ID is correct' do
       get yorchauthapi.api_user_path(user_first.id)
