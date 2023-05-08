@@ -3,7 +3,7 @@ require 'jwt'
 module Yorchauthapi
   module Api
     class UsersController < AuthenticatedController
-      before_action :validate_user, only: %i[show update destroy]
+      before_action :authenticate_user, only: %i[show update destroy]
       before_action :set_user, except: %i[create]
 
       def show

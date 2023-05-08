@@ -5,7 +5,7 @@ module Yorchauthapi
     class AuthenticatedController < ApplicationController
       private
 
-      def validate_user
+      def authenticate_user
         jwt_token = request.headers['HTTP_AUTHORIZATION']
 
         if jwt_token.present?
