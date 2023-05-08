@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jwt'
 
 module Api
@@ -8,7 +10,7 @@ module Api
       jwt_token = request.headers['HTTP_AUTHORIZATION']
 
       if jwt_token.present?
-        decoded_token = decode_jwt(jwt_token)
+        decoded_token = Yorchauthapi.decode_jwt(jwt_token)
         authentication_token = AuthenticationToken.find_by(auth_token: decoded_token['auth_token'])
 
         if authentication_token.present?
