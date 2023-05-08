@@ -5,7 +5,7 @@ models and migrations.
 
 ## Getting Started
 This gem requires JWT to send and receive the authentication tokens encrypted.
-Be sure to specified this gem withinypur Gemfile
+Be sure to specified this gem within your Gemfile
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -21,7 +21,7 @@ $ bundle
 ```
 
 ## How to use it.
-This gem process all the authenticationlogic inside of this gem.
+This gem process all the authentication logic inside of this gem.
 Run the following command to generate the files needed.
 
 This command will show you information about the current available commands.
@@ -29,12 +29,12 @@ This command will show you information about the current available commands.
 $ rails g yorchauthapi --help
 ```
 
-In order to install and generate the user model configuration, run this command
+In order to install and generate the authentication configuration, run this command:
 ```bash
 $ rails g yorchauthapi User
 ```
 This command will generate the following files:
-- The authenticate controler.
+- The Authenticated Controller.
 - The User and the Authentication Token models.
 - Two migrations (These migrations will create the users and the authentication token tables).
 
