@@ -16,6 +16,7 @@ class YorchauthapiGenerator < Rails::Generators::NamedBase
   def user_authentication_configuration
     create_model_files
     create_migration_files
+    mount_yorchauthapi_root
   end
 
   def create_model_files
@@ -26,5 +27,15 @@ class YorchauthapiGenerator < Rails::Generators::NamedBase
   def create_migration_files
     copy_file './db/create_users_table.rb', "app/db/migrate/#{Time.now.strftime('%Y%m%d%H%M%S')}_create_users.rb"
     copy_file './db/create_authentication_tokens_table.rb', "app/db/migrate/#{Time.now.strftime('%Y%m%d%H%M%S')}_create_authentication_tokens.rb"
+  end
+
+  def mount_yorchauthapi_root
+    inject_into_file 'config/routes.rb', after: 'Rails.application.routes.draw do' do
+      <<-'RUBY'
+
+  # Yorchauthapi::Engine Root.
+  mount Yorchauthapi::Engine => "/yorchauthapi"
+      RUBY
+    end
   end
 end
