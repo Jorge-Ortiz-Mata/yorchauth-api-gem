@@ -35,12 +35,6 @@ class YorchauthapiGenerator < Rails::Generators::NamedBase
   end
 
   def mount_yorchauthapi_root
-    inject_into_file 'config/routes.rb', after: 'Rails.application.routes.draw do' do
-      <<-'RUBY'
-
-  # Yorchauthapi::Engine Root.
-  mount Yorchauthapi::Engine => "/yorchauthapi"
-      RUBY
-    end
+    route "mount Yorchauthapi::Engine => '/yorchauthapi'"
   end
 end
