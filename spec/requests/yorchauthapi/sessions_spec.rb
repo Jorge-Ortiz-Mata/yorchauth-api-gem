@@ -54,7 +54,6 @@ RSpec.describe "Sessions", type: :request do
       expect(Yorchauthapi::AuthenticationToken.all.count).to eql(1)
     end
 
-
     it 'should delete the previous token and render error when using old token' do
       delete yorchauthapi.api_logout_path, params: {}, headers: { 'Authorization': @encoded_old_token }
 
