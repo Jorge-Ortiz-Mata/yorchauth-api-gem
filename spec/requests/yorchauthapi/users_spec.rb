@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
+RSpec.describe 'Users', type: :request do
   let(:old_user) { build(:yorchauthapi_user, :as_old_user, :with_password, :with_password_confirmation) }
   let(:new_user) { build(:yorchauthapi_user, :as_new_user, :with_password, :with_password_confirmation) }
   let(:valid_params) { { email: 'user-old-email@email.com', password: 'userpassword1234', password_confirmation: 'userpassword1234' } }
   let(:invalid_params) { { email: 'user.com', password: '1234', password_confirmation: '3456' } }
 
-  describe "POST - create /yorchauthapi/api/users" do
+  describe 'POST - create /yorchauthapi/api/users' do
     it 'should return error when params are not correct' do
       post yorchauthapi.api_users_path(user: invalid_params)
 
@@ -24,7 +24,7 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "GET - show /yorchauthapi/api/user" do
+  describe 'GET - show /yorchauthapi/api/user' do
     before { old_user.save }
 
     it 'should return error when no jwt is provided' do
@@ -64,7 +64,6 @@ RSpec.describe "Users", type: :request do
       expect(data['errors']).to eql(['You are not allowed to perform this action'])
     end
 
-
     it 'should get the user information' do
       post yorchauthapi.api_login_path, params: valid_params
       encoded_token = JSON.parse(response.body)['auth_token']
@@ -73,11 +72,11 @@ RSpec.describe "Users", type: :request do
 
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
-      expect(data.keys).to match_array(['email', 'id'])
+      expect(data.keys).to match_array(%w[email id])
     end
   end
 
-  describe "PATCH - update /yorchauthapi/api/user" do
+  describe 'PATCH - update /yorchauthapi/api/user' do
     before do
       old_user.save
       post yorchauthapi.api_login_path, params: valid_params
@@ -101,7 +100,7 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "DELETE /yorchauthapi/api/user" do
+  describe 'DELETE /yorchauthapi/api/user' do
     it 'should delete a user' do
       old_user.save
       post yorchauthapi.api_login_path, params: valid_params
