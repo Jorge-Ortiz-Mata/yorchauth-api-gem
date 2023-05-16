@@ -13,7 +13,6 @@ Add this line to your application's Gemfile:
 ```ruby
 gem "jwt"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
 gem "yorchauthapi", github: 'Jorge-Ortiz-Mata/yorchauth-api-gem'
@@ -48,8 +47,27 @@ Finally, create and run the migrations:
 $ rails db:create db:migrate
 ```
 
-That's it.
+That's it.  
+
+Each controller you need user authentication should be inherit from Authenticated Controller and add the before_action method.
+Example:
+
+```ruby
+module Api
+  class PostsController < AuthenticatedController
+    before_action :authenticate_user
+    before_action :set_post, only: %i[ show update destroy ]
+    
+    def index
+      @posts = Post.all
+      render json: { posts: @posts }, status: :ok
+    end
+  end
+end
+```
+
 Now run your rails server and please visit the wiki page where you will find more information regarding endpoints.
+
 [Wiki - Getting Started](https://github.com/Jorge-Ortiz-Mata/yorchauth-api-gem/wiki)
 
 ## Contributing
