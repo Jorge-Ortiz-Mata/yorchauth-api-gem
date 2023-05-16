@@ -47,7 +47,7 @@ $ rails db:create db:migrate
 
 That's it.
 Now run your rails server and please visit the wiki page where you will find more information regarding endpoints.
--[Wiki - Getting Started](https://github.com/Jorge-Ortiz-Mata/yorchauth-api-gem/wiki)
+[Wiki - Getting Started](https://github.com/Jorge-Ortiz-Mata/yorchauth-api-gem/wiki)
 
 ## Contributing
 Contribution directions go here.
