@@ -21,7 +21,7 @@ class YorchauthapiGenerator < Rails::Generators::NamedBase
   end
 
   def create_controller_files
-    copy_file './controllers/authenticated_controller.rb', 'app/controllers/authenticated_controller.rb'
+    copy_file './controllers/authenticated_controller.rb', 'app/controllers/api/authenticated_controller.rb'
   end
 
   def create_model_files
