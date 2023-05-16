@@ -12,7 +12,8 @@ Add this line to your application's Gemfile:
 
 ```ruby
 gem "jwt"
-gem "yorchauthapi"
+
+gem "yorchauthapi", github: 'Jorge-Ortiz-Mata/yorchauth-api-gem'
 ```
 
 And then execute:
@@ -22,7 +23,7 @@ $ bundle
 
 ## How to use it.
 This gem process all the authentication logic inside of this gem.
-Run the following command to generate the files needed.
+Run the following command to generate the files required.
 
 This command will show you information about the current available commands.
 ```bash
