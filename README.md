@@ -36,11 +36,15 @@ In order to install and generate the authentication configuration, run this comm
 ```bash
 $ rails g yorchauthapi User
 ```
+
 This command will generate the following files:
 - The Authenticated Controller.
 - The User and the Authentication Token models.
-- Two migrations (These migrations will create the users and the authentication token tables).
 
+This command will generate two migrations (These migrations will create the users and the authentication token tables).
+```
+$ rails yorchauthapi:install:migrations
+```
 
 Finally, create and run the migrations:
 ```bash
