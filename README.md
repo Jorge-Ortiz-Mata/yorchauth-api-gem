@@ -13,6 +13,9 @@ Add this line to your application's Gemfile:
 ```ruby
 gem "jwt"
 
+# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+gem "bcrypt", "~> 3.1.7"
+
 gem "yorchauthapi", github: 'Jorge-Ortiz-Mata/yorchauth-api-gem'
 ```
 
