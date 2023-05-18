@@ -1,4 +1,4 @@
-# Yorchauthapi
+# Yorch Auth API - Ruby gem.
 The Yorchauthapi gem allows users to authenticate on Rails API's applications.
 It generates the following files:
 
