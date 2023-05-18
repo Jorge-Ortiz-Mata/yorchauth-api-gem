@@ -17,7 +17,7 @@ module Yorchauthapi
     private
 
     def email_format
-      errors.add(:expiration_date, "should be a valid email") unless email.to_s.include? '@'
+      errors.add(:email, "should be a valid email") unless email.to_s.include? '@'
     end
   end
 end

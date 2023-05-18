@@ -27,6 +27,12 @@ RSpec.describe "Sessions", type: :request do
   end
 
   describe 'DELETE /logout' do
+    it 'returns error when JWT is not prvided ' do
+      delete yorchauthapi.api_logout_path, params: {}, headers: {}
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     it 'should delete the auth token when user closes session (logout)' do
       user.save
       post yorchauthapi.api_login_path, params: valid_params

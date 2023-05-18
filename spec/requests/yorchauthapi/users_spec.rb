@@ -100,7 +100,7 @@ RSpec.describe 'Users', type: :request do
 
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(data['errors']['expiration_date']).to eql(['should be a valid email'])
+      expect(data['errors']['email']).to eql(['should be a valid email'])
     end
 
     it 'should update a user record' do

@@ -48,17 +48,21 @@ Finally, create and run the migrations:
 $ rails db:create db:migrate
 ```
 
-In order to implement this ruby gem and avoid request for users no authenticated, each controller must inherit from
-the authenticated controller, and add the authenticate_user method
+In order to implement this ruby gem and avoid request for users no authenticated, make sure to configure these steps:
+
+- Each controller must inherit from the AuthenticatedController.
+- Add the authenticate_user method where you need user authentication
 ```ruby
 module Api
-  class PostsController < AuthenticatedController
-    before_action :authenticate_user
+  module V1
+    class PostsController < AuthenticatedController
+      before_action :authenticate_user
 
-    def index
-      @posts = Post.all
+      def index
+        @posts = Post.all
 
-      render json: { posts: @posts }, status: :ok
+        render json: { posts: @posts }, status: :ok
+      end
     end
   end
 end

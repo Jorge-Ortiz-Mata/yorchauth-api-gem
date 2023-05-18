@@ -19,14 +19,19 @@ module Api
 
     def logout
       jwt_token = request.headers['HTTP_AUTHORIZATION']
-      decoded_token = Yorchauthapi.decode_jwt(jwt_token)
-      authentication_token = AuthenticationToken.find_by(auth_token: decoded_token['auth_token'])
 
-      if authentication_token.present?
-        authentication_token.destroy
-        render json: { response: 'Authentication token was successfully deleted' }, status: :ok
+      if jwt_token.present?
+        decoded_token = Yorchauthapi.decode_jwt(jwt_token)
+        authentication_token = AuthenticationToken.find_by(auth_token: decoded_token['auth_token'])
+
+        if authentication_token.present?
+          authentication_token.destroy
+          render json: { response: 'Authentication token was successfully deleted' }, status: :ok
+        else
+          render json: { errors: ['Authentication token was not found'] }, status: :unprocessable_entity
+        end
       else
-        render json: { errors: ['Authentication token was not found'] }, status: :unprocessable_entity
+        render json: { errors: ['JWT was not provided'] }, status: :unprocessable_entity
       end
     end
   end
