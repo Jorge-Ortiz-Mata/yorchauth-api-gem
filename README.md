@@ -13,10 +13,15 @@ Add this line to your application's Gemfile:
 # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem 'jwt'
 
+<<<<<<< HEAD
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt'
 
 # Ruby gem located at GitHub servers.
+=======
+gem "bcrypt", "~> 3.1.7"
+
+>>>>>>> f262f027b99313993776e44d86315e51f4832415
 gem "yorchauthapi", github: 'Jorge-Ortiz-Mata/yorchauth-api-gem'
 
 # This configuration is for running the gem installed locally
@@ -42,12 +47,25 @@ In order to install and generate the authentication configuration, run this comm
 ```bash
 $ rails g yorchauthapi install
 ```
+<<<<<<< HEAD
+=======
+
+This command will generate the following files:
+- The Authenticated Controller.
+- The User and the Authentication Token models.
+
+This command will generate two migrations (These migrations will create the users and the authentication token tables).
+```
+$ rails yorchauthapi:install:migrations
+```
+>>>>>>> f262f027b99313993776e44d86315e51f4832415
 
 Finally, create and run the migrations:
 ```bash
 $ rails db:create db:migrate
 ```
 
+<<<<<<< HEAD
 In order to implement this ruby gem and avoid request for users no authenticated, make sure to configure these steps:
 
 - Each controller must inherit from the AuthenticatedController.
@@ -79,11 +97,29 @@ Rails.application.routes.draw do
 
     post '/login', to: 'sessions#login'
     delete '/logout', to: 'sessions#logout'
+=======
+That's it.  
+
+Each controller you need user authentication should be inherit from Authenticated Controller and add the before_action method.
+Example:
+
+```ruby
+module Api
+  class PostsController < AuthenticatedController
+    before_action :authenticate_user
+    before_action :set_post, only: %i[ show update destroy ]
+    
+    def index
+      @posts = Post.all
+      render json: { posts: @posts }, status: :ok
+    end
+>>>>>>> f262f027b99313993776e44d86315e51f4832415
   end
 end
 ```
 
 Now run your rails server and please visit the wiki page where you will find more information regarding endpoints.
+
 [Wiki - Getting Started](https://github.com/Jorge-Ortiz-Mata/yorchauth-api-gem/wiki)
 
 ## Contributing
