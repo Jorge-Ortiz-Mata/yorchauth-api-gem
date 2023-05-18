@@ -75,7 +75,7 @@ RSpec.describe "Sessions", type: :request do
 
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:unauthorized)
-      expect(data['errors']).to eql(['Your JWT is invalid. Please, close the session and request a new token'])
+      expect(data['errors']).to eql(['JWT expired'])
 
       get yorchauthapi.api_user_path(user.id), params: {}, headers: { 'Authorization': @encoded_new_token }
 

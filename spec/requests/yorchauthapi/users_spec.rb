@@ -35,9 +35,10 @@ RSpec.describe 'Users', type: :request do
       expect(data['errors']).to eql(['JWT was not provided'])
     end
 
-    it 'should return error when JWT is different from the current one' do
+    it 'should return error when JWT is different from the saved one' do
       post yorchauthapi.api_login_path, params: valid_params
       old_token = JSON.parse(response.body)['auth_token']
+
       expect(response).to have_http_status(:ok)
       expect(Yorchauthapi::AuthenticationToken.count).to eql(1)
 
@@ -49,7 +50,7 @@ RSpec.describe 'Users', type: :request do
 
       data = JSON.parse response.body
       expect(response).to have_http_status(:unauthorized)
-      expect(data['errors']).to eql(['Your JWT is invalid. Please, close the session and request a new token'])
+      expect(data['errors']).to eql(['JWT expired'])
     end
 
     it 'should return error when the current user is different from the user data' do
@@ -78,13 +79,24 @@ RSpec.describe 'Users', type: :request do
 
   describe 'PATCH - update /yorchauthapi/api/user' do
     before do
+      new_user.save
       old_user.save
+    end
+
+    it 'should return errors when :user_id is different from the current user' do
       post yorchauthapi.api_login_path, params: valid_params
-      @encoded_token = JSON.parse(response.body)['auth_token']
+      encoded_token = JSON.parse(response.body)['auth_token']
+      patch yorchauthapi.api_user_path(new_user.id), params: { user: valid_params }, headers: { 'Authorization': encoded_token }
+
+      data = JSON.parse(response.body)
+      expect(response).to have_http_status(:unauthorized)
+      expect(data['errors']).to eql(['You are not allowed to perform this action'])
     end
 
     it 'should return errors when params are not correct' do
-      patch yorchauthapi.api_user_path(old_user.id), params: { user: invalid_params }, headers: { 'Authorization': @encoded_token }
+      post yorchauthapi.api_login_path, params: valid_params
+      encoded_token = JSON.parse(response.body)['auth_token']
+      patch yorchauthapi.api_user_path(old_user.id), params: { user: invalid_params }, headers: { 'Authorization': encoded_token }
 
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:unprocessable_entity)
@@ -92,17 +104,35 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'should update a user record' do
-      patch yorchauthapi.api_user_path(old_user.id), params: { user: { email: 'old_updated@email.com' } }, headers: { 'Authorization': @encoded_token }
+      post yorchauthapi.api_login_path, params: valid_params
+      encoded_token = JSON.parse(response.body)['auth_token']
+      patch yorchauthapi.api_user_path(old_user.id), params: { user: { email: 'old_updated@email.com' } }, headers: { 'Authorization': encoded_token }
 
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
       expect(data.keys).to match_array(['email', 'id'])
+      expect(data['email']).to eql('old_updated@email.com')
     end
   end
 
   describe 'DELETE /yorchauthapi/api/user' do
-    it 'should delete a user' do
+    before do
+      new_user.save
       old_user.save
+    end
+
+    it 'should return errors when :user_id is different from the current user' do
+      post yorchauthapi.api_login_path, params: valid_params
+      encoded_token = JSON.parse(response.body)['auth_token']
+      delete yorchauthapi.api_user_path(new_user), params: {}, headers: { 'Authorization': encoded_token }
+
+
+      data = JSON.parse(response.body)
+      expect(response).to have_http_status(:unauthorized)
+      expect(data['errors']).to eql(['You are not allowed to perform this action'])
+    end
+
+    it 'should delete a user' do
       post yorchauthapi.api_login_path, params: valid_params
       encoded_token = JSON.parse(response.body)['auth_token']
 
@@ -111,7 +141,7 @@ RSpec.describe 'Users', type: :request do
       data = JSON.parse response.body
       expect(response).to have_http_status(:ok)
       expect(data['response']).to eql(['Email has been deleted succesfully'])
-      expect(Yorchauthapi::User.all.count).to eql(0)
+      expect(Yorchauthapi::User.all.count).to eql(1)
     end
   end
 end

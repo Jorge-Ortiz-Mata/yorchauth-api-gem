@@ -22,7 +22,7 @@ class YorchauthapiGenerator < Rails::Generators::NamedBase
 
   def mount_controller_files
     copy_file './controllers/authenticated_controller.rb', 'app/controllers/api/authenticated_controller.rb'
-    copy_file './controllers/users_controller.rb', 'app/controllers/api/users_controller.rb'
+    copy_file './controllers/users_controller.rb', 'app/controllers/api/v1/users_controller.rb'
     copy_file './controllers/sessions_controller.rb', 'app/controllers/api/sessions_controller.rb'
   end
 

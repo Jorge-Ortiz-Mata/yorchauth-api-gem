@@ -3,7 +3,8 @@ require 'jwt'
 module Yorchauthapi
   module Api
     class UsersController < AuthenticatedController
-      before_action :authenticate_user, only: %i[show update destroy]
+      before_action :authenticate_user, except: %i[create]
+      before_action :user_permissions, only: %i[show update destroy]
       before_action :set_user, except: %i[create]
 
       def show
@@ -23,7 +24,7 @@ module Yorchauthapi
 
       def update
         if @user.update user_params
-         render json: { id: @user.id, email: @user.email }, status: :ok
+          render json: { id: @user.id, email: @user.email }, status: :ok
         else
           render json: { errors: @user.errors }, status: :unprocessable_entity
         end

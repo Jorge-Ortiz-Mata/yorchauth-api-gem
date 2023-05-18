@@ -62,8 +62,10 @@ You will need to add the resources created within the API namespace:
 ```ruby
 Rails.application.routes.draw do
   namespace :api do
-    resources :users
-    resources :posts
+    namespace :v1 do
+      resources :users
+      resources :posts
+    end
   end
 end
 ```

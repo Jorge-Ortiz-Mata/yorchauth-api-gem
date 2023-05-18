@@ -2,7 +2,7 @@ require 'jwt'
 
 module Yorchauthapi
   module Api
-    class SessionsController < ApplicationController
+    class SessionsController < AuthenticatedController
       def login
         user = User.find_by(email: params[:email])
 
