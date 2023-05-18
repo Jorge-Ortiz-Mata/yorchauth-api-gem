@@ -7,7 +7,7 @@ It generates the following files:
 - Migrations.
 
 ## Installation
-Add this line to your application's Gemfile:
+Add the following gems to your Gemfile:
 
 ```ruby
 # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
@@ -23,16 +23,14 @@ gem "yorchauthapi", github: 'Jorge-Ortiz-Mata/yorchauth-api-gem'
 # gem "yorchauthapi", path: '../../../rails/rails-gems/yorchauthapi'
 ```
 
-And then execute:
+And then install them:
 ```bash
 $ bundle
 ```
 
 ## Getting started
 
-This gem process all the authentication logic inside of this gem.
-Run the following command to generate the files required.
-
+This gem will generate several files in order to authenticate users within your API application.
 This command will show you information about the current available commands.
 ```bash
 $ rails g yorchauthapi --help
@@ -68,7 +66,7 @@ module Api
 end
 ```
 
-You will need to add the resources created within the API namespace:
+You will need to add these routes within the API (and V1 if you need it) namespace:
 ```ruby
 Rails.application.routes.draw do
   namespace :api do
@@ -83,7 +81,13 @@ Rails.application.routes.draw do
 end
 ```
 
-Now run your rails server and please visit the wiki page where you will find more information regarding endpoints.
+Now run your rails server and start testing.
+
+```bash
+$ rails server
+```
+
+Please visit the wiki page where you will find more information regarding endpoints.
 
 [Wiki - Getting Started](https://github.com/Jorge-Ortiz-Mata/yorchauth-api-gem/wiki)
 
