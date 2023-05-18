@@ -37,6 +37,8 @@ class YorchauthapiGenerator < Rails::Generators::NamedBase
   end
 
   def mount_yorchauthapi_routes
-    route 'resources :users'
+    route 'resources :users, except: %i[index new edit]'
+    route "post '/login', to: 'sessions#login'"
+    route "delete '/logout', to: 'sessions#logout'"
   end
 end
