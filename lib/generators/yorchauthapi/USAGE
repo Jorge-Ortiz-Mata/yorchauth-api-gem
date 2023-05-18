@@ -5,5 +5,5 @@ Example:
   rails g yorchauthapi --help
     - This command shows this information.
 
-  rails g yorchauthapi user
-   - This command creates all the files (models and migrations).
+  rails g yorchauthapi install
+   - This command creates all the files (controllers, models, and migrations).
