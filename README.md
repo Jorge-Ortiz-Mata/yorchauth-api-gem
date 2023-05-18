@@ -10,11 +10,17 @@ It generates the following files:
 Add this line to your application's Gemfile:
 
 ```ruby
+# A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem 'jwt'
 
+# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt'
 
+# Ruby gem located at GitHub servers.
 gem "yorchauthapi", github: 'Jorge-Ortiz-Mata/yorchauth-api-gem'
+
+# This configuration is for running the gem installed locally
+# gem "yorchauthapi", path: '../../../rails/rails-gems/yorchauthapi'
 ```
 
 And then execute:
