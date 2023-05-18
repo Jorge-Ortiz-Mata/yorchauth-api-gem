@@ -15,7 +15,9 @@ module Yorchauthapi
         @user = User.new user_params
 
         if @user.save
-          token_encoded = encode_jwt(@user)
+          AuthenticationToken.create(user_id: @user.id)
+
+          token_encoded = Yorchauthapi.encode_jwt(@user)
           render json: { auth_token: token_encoded }, status: :ok
         else
           render json: { errors: @user.errors }, status: :unprocessable_entity

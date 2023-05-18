@@ -1,15 +1,16 @@
 require 'jwt'
 
 module Api
-  class SessionsController < ApplicationController
+  class SessionsController < AuthenticatedController
     def login
       user = User.find_by(email: params[:email])
 
       if user&.authenticate(params[:password])
         authentication_token = AuthenticationToken.find_by(user_id: user.id)
         authentication_token.destroy if authentication_token.present?
+        AuthenticationToken.create(user_id: user.id)
 
-        token_encoded = encode_jwt(user)
+        token_encoded = Yorchauthapi.encode_jwt(user)
         render json: { auth_token: token_encoded }, status: :ok
       else
         render json: { errors: ['Email or password are incorrect'] }, status: :unprocessable_entity
@@ -18,7 +19,7 @@ module Api
 
     def logout
       jwt_token = request.headers['HTTP_AUTHORIZATION']
-      decoded_token = decode_jwt(jwt_token)
+      decoded_token = Yorchauthapi.decode_jwt(jwt_token)
       authentication_token = AuthenticationToken.find_by(auth_token: decoded_token['auth_token'])
 
       if authentication_token.present?

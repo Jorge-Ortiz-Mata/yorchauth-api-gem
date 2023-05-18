@@ -3,7 +3,8 @@ require 'jwt'
 module Api
   module V1
     class UsersController < AuthenticatedController
-      before_action :authenticate_user, only: %i[show update destroy]
+      before_action :authenticate_user, except: %i[create]
+      before_action :user_permissions, only: %i[show update destroy]
       before_action :set_user, except: %i[create]
 
       def show
@@ -14,7 +15,9 @@ module Api
         @user = User.new user_params
 
         if @user.save
-          token_encoded = encode_jwt(@user)
+          AuthenticationToken.create(user_id: @user.id)
+
+          token_encoded = Yorchauthapi.encode_jwt(@user)
           render json: { auth_token: token_encoded }, status: :ok
         else
           render json: { errors: @user.errors }, status: :unprocessable_entity
