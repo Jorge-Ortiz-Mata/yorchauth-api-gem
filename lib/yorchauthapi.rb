@@ -7,7 +7,7 @@ require 'yorchauthapi/engine'
 module Yorchauthapi
   def self.encode_jwt(user)
     hmac_secret = 'yorchAuthAPIKey190896'
-    payload = { email: user.email, auth_token: user.authentication_token.auth_token }
+    payload = { id: user.id, email: user.email, auth_token: user.authentication_token.auth_token }
 
     JWT.encode payload, hmac_secret, 'HS256'
   end
